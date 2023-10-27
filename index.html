@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SSO Initiator</title>
+  <style>
+    body {
+      background: url('https://i.imgur.com/j629inp.png') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 500px;
+      text-align: center;
+    }
+
+    button {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      resize: vertical;
+    }
+    .gif-dimensions {
+      max-width: 150px;
+      min-width: 50px;
+      max-height: 150px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+    .progress-container {
+      width: 100%;
+      background-color: rgba(204, 204, 204, 0.5);
+    }
+    .progress-bar {
+      width: 0%;
+      height: 30px;
+      background-color: #B6ADF3;
+      text-align: center;
+      line-height: 30px;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+  <h1>CB's SSO Initiator</h1>
+
+  <h2>SAML IdP-Init</h2>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/idp/startSSO.ping?PartnerSpId=sp_test')">PARTNER: sp_test - new tab</button>
+  <button onclick="openInIframe('https://sso.testpf.local:9031/idp/startSSO.ping?PartnerSpId=sp_test','myIframe0')">PARTNER: sp_test - iFrame</button>
+  <!-- <button onclick="openInIframe('https://fam.kp.org/idp/startSSO.ping?PartnerSpId=CO_FAM_PROD','myIframe0')">KAISER</button> -->
+  <iframe id="myIframe0" style="display: none;"></iframe>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/pf/federation_metadata.ping?PartnerSpId=sp_test')">IdP Metadata</button>
+
+  <h2>SAML SP-Init</h2>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/sp/startSSO.ping?PartnerIdpId=idp_test')">PARTNER: idp_test - new tab</button>
+  <button onclick="openInIframe('https://sso.testpf.local:9031/sp/startSSO.ping?PartnerIdpId=idp_test','myIframe1')">PARTNER: idp_test - iFrame</button>
+  <iframe id="myIframe1" style="display: none;"></iframe>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/pf/federation_metadata.ping?PartnerIdpId=idp_test')">SP Metadata</button>
+
+  <h2>WS-Federation</h2>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/sp/startSSO.ping?PartnerIdpId=wf_test')">PARTNER: wsfed</button>
+  <button onclick="openInNewTab('https://localhost:9031/pf/federation_metadata.ping?PartnerSpId=wf_test')">WS-Fed IdP Metadata</button>
+  <button onclick="openInNewTab('https://localhost:9031/pf/federation_metadata.ping?PartnerIdpId=wf_test')">WS-Fed SP Metadata</button>
+
+  <h2>WS-Trust</h2>
+  <button onclick="wst('https://sso.testpf.local:9031/idp/sts.wst')">PARTNER: ws-trust</button>
+  <button onclick="openInNewTab('https://localhost:9031/pf/sts_mex.ping?PartnerSpId=ws-trust')">STS Metadata</button>
+
+  <hr>
+
+  <h2>SSPR</h2>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/ext/pwdchange/Identify?AdapterId=pdform')">Change Password</button>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/ext/pwdreset/Identify?AdapterId=pdform')">Reset Password</button>
+  <button onclick="openInNewTab('https://sso.testpf.local:9031/ext/idrecovery/Recover?AdapterId=pdform')">Recover Username</button>
+
+  <hr>
+
+  <h2>OAuth Playground</h2>
+  <button onclick="openInNewTab('https://localhost:9031/OAuthPlayground')">OAuth PG</button>
+
+  <h2>Admin Console</h2>
+  <button onclick="openInNewTab('https://localhost:9999/pingfederate/app')">PF Console</button>
+
+  <h2>Admin API Explorer</h2>
+  <button onclick="openInNewTab('https://localhost:9999/pf-admin-api/api-docs/')">API Explorer</button>
+
+  <hr>
+  <img id="rgif" class="gif-dimensions">
+  <p id="jpn"></p>
+  <div class="progress-container">
+      <div id="progress" class="progress-bar">0%</div>
+  </div>
+  <b>「日本のタイマー」</b>
+  </div>
+
+  <script>
+    function openInNewTab(url) {
+      var newTab = window.open(url);
+      newTab.focus();
+    }
+
+    function openInIframe(url,frame) {
+      var iframe = document.getElementById(frame);
+      iframe.src = url;
+      iframe.style.display = 'inline-block';
+      iframe.style.width = '350px';
+      iframe.style.height = '350px';
+    }
+
+    function wst(url) {
+      var defaultPayload = '<soap:Envelope xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><wsa:Action>http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue</wsa:Action><wsa:MessageID>urn:uuid:8ca9339f-fe05-4594-8231-a32770b5b663</wsa:MessageID><wsa:ReplyTo><wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address></wsa:ReplyTo><wsa:To>https://localhost:9031/idp/sts.wst</wsa:To><wsse:Security soap:mustUnderstand="1"><wsu:Timestamp wsu:Id="Timestamp-5fd7233e-27a1-4fcb-b4e4-5f515328334f"><wsu:Created>2015-06-18T00:04:00Z</wsu:Created><wsu:Expires>2025-06-19T00:04:00Z</wsu:Expires></wsu:Timestamp><wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="SecurityToken-3505b09f-ff27-4920-882c-fe9727e34150"><wsse:Username>joe</wsse:Username><wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">2Federate</wsse:Password><wsse:Nonce>BheBpzty7KKTA8bLEsvnng==</wsse:Nonce><wsu:Created>2021-07-18T00:04:00Z</wsu:Created></wsse:UsernameToken></wsse:Security></soap:Header><soap:Body><wst:RequestSecurityToken xmlns:wst="http://schemas.xmlsoap.org/ws/2005/02/trust"><wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType><wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"><wsa:EndpointReference><wsa:Address>test</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wst:Lifetime><wsu:Expires>2021-06-19T00:04:00Z</wsu:Expires></wst:Lifetime><wst:OnBehalfOf><wsse:SecurityTokenReference><wsse:Reference URI="#SecurityToken-3505b09f-ff27-4920-882c-fe9727e34150" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken"/></wsse:SecurityTokenReference></wst:OnBehalfOf></wst:RequestSecurityToken></soap:Body></soap:Envelope>'
+      var payload = prompt("Please enter the payload data:", defaultPayload);
+      if (payload === null) {
+        return;
+      }
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', url);
+        xhr.setRequestHeader('Content-Type', 'text/plain');
+        xhr.onload = function() {
+          if (xhr.status !== undefined) {
+            var statusCode = xhr.status;
+            alert('Response Status Code: ' + statusCode);
+          } else {
+            alert('Unable to retrieve the status code.');
+          }
+        };
+        xhr.send(payload);
+      }
+
+    window.onload = updateGif;
+
+    const gifs = [
+      'https://i.imgur.com/YMbuFKf.gif',
+      'https://i.imgur.com/LC56Bo7.gif',
+      'https://i.imgur.com/iMdMGxd.gif',
+      'https://i.imgur.com/QQYQDVH.gif',
+      'https://i.imgur.com/3rhmuV2.gif',
+      'https://i.imgur.com/JVm7wQw.gif',
+      'https://i.imgur.com/AcDfmVn.gif',
+      'https://i.imgur.com/YXf589T.gif',
+      'https://i.imgur.com/MnL7t2W.gif',
+      'https://i.imgur.com/5H1dO71.gif',
+      'https://i.imgur.com/PgkeecI.gif',
+      'https://i.imgur.com/1rfo0IR.gif',
+      'https://i.imgur.com/iWF390g.gif',
+      'https://i.imgur.com/oLZ7SpR.gif',
+      'https://i.imgur.com/4qaXEao.gif',
+      // 'https://i.imgur.com/WVXGhLj.gif',
+      // 'https://i.imgur.com/6VmjxVK.gif',
+      'https://i.imgur.com/dTdqEed.gif',
+      'https://i.imgur.com/hZUZpVy.gif',
+      'https://i.imgur.com/eUtuyeS.gif',
+      'https://i.imgur.com/d3RojpB.gif',
+      'https://i.imgur.com/0GIP3eR.gif',
+      'https://i.imgur.com/OBxsfLO.gif',
+      'https://i.imgur.com/Ibm0j5Y.gif',
+      'https://i.imgur.com/1bWMB1n.gif',
+      'https://i.imgur.com/kS8rldK.gif',
+      'https://i.imgur.com/E8yADmm.gif',
+      'https://i.imgur.com/6GkpMQw.gif',
+      'https://i.imgur.com/xqsOjIu.gif',
+      'https://i.imgur.com/JHu6gU5.gif',
+      'https://i.imgur.com/8zb8SiZ.gif',
+      'https://i.imgur.com/1A2aTVL.gif',
+      'https://i.imgur.com/x2ArFtA.gif',
+      'https://i.imgur.com/6TmiDrH.gif',
+      'https://i.imgur.com/q4f50Da.gif',
+      'https://i.imgur.com/e5ouM1l.gif',
+      'https://i.imgur.com/xOXid4z.gif',
+      'https://i.imgur.com/SgobXMc.gif',
+      'https://i.imgur.com/Db2877M.gif',
+      'https://i.imgur.com/AC2kOFM.gif',
+      'https://i.imgur.com/xl5R3fs.gif',
+      'https://i.imgur.com/gk57H2G.gif',
+      'https://i.imgur.com/YMaTu1r.gif',
+      'https://i.imgur.com/ecn6Q6N.gif',
+      'https://i.imgur.com/VNPrz9G.gif',
+      'https://i.imgur.com/vZ0qEpU.gif',
+      'https://i.imgur.com/lYzIhGq.gif',
+      'https://i.imgur.com/347N9hX.gif',
+    ];
+
+    function updateGif() {
+      const imgElement = document.querySelector('#rgif');
+      const randomIndex = Math.floor(Math.random() * gifs.length);
+      const randomGifUrl = gifs[randomIndex];
+      imgElement.src = randomGifUrl;
+    }
+    setInterval(updateGif, 60000);
+
+    var startDate = new Date("Sep 8, 2023 19:00:00").getTime();
+    var countDownDate = new Date("Mar 23, 2024 05:00:00").getTime();
+    var x = setInterval(function() {
+      var now = new Date().getTime();
+      var elapsedTime = now - startDate;
+      var totalDuration = countDownDate - startDate;
+      var cntdwn = countDownDate - now;
+      var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
+      document.getElementById("jpn").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
+      // document.getElementById("jpn").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      
+      var percentageCompleted = (elapsedTime / totalDuration) * 100;
+      document.getElementById("progress").style.width = percentageCompleted + "%";
+      document.getElementById("progress").innerHTML = percentageCompleted.toFixed(4) + "%";
+      
+      if (now >= countDownDate) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "いくぞ !";
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
