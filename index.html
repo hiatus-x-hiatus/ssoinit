@@ -13,7 +13,6 @@
       align-items: center;
       min-height: 100vh;
     }
-
     .container {
       background-color: rgba(255, 255, 255, 0.8);
       border-radius: 10px;
@@ -21,16 +20,24 @@
       max-width: 500px;
       text-align: center;
     }
-
     button {
       display: block;
       margin-bottom: 10px;
     }
-
     textarea {
       width: 100%;
       height: 100px;
       resize: vertical;
+    }
+    input[type="text"] {
+      background-color: rgba(255, 255, 255, 0.3);
+      width: 125px;
+      padding: 3px;
+      margin-bottom: 10px;
+    }
+    .hidden-section {
+      display: none;
+      margin-top: 10px;
     }
     .gif-dimensions {
       max-width: 150px;
@@ -58,45 +65,72 @@
   <div class="container">
   <h1>CB's SSO Initiator</h1>
 
+  <button id="expButton" disabled>Edit Variables</button>
+  <div class="hidden-section">
+    <label for="hostname">Hostname:</label>
+    <input type="text" id="hostname" value="sso.testpf.local"><br>
+    <label for="port">Runtime Port:</label>
+    <input type="text" id="port" value="9031"><br>
+    <label for="adport">Admin Port:</label>
+    <input type="text" id="adport" value="9999"><br>
+    <label for="idppartner">Partner IdP ID:</label>
+    <input type="text" id="idppartner" value="idp_test"><br>
+    <label for="sppartner">Partner SP ID:</label>
+    <input type="text" id="sppartner" value="sp_test"><br>
+    <label for="oidcpartner">OIDC Partner:</label>
+    <input type="text" id="oidcpartner" value="https://sso.testpf.local:9031"><br>
+    <label for="wsfpartner">WS-Fed Partner:</label>
+    <input type="text" id="wsfpartner" value="wf_test"><br>
+    <label for="wstpartner">WS-Trust Partner:</label>
+    <input type="text" id="wstpartner" value="ws-trust"><br>
+    <label for="sspradapter">SSPR Adapter:</label>
+    <input type="text" id="sspradapter" value="pdform"><br>
+    <button id="heartbeat">Test heartbeats</button>
+    <div id="adminheartbeatresult"></div>
+    <div id="runtimeheartbeatresult"></div>
+  </div>
+
   <h2>SAML IdP-Init</h2>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/idp/startSSO.ping?PartnerSpId=sp_test')">PARTNER: sp_test - new tab</button>
-  <button onclick="openInIframe('https://sso.testpf.local:9031/idp/startSSO.ping?PartnerSpId=sp_test','myIframe0')">PARTNER: sp_test - iFrame</button>
-  <!-- <button onclick="openInIframe('https://fam.kp.org/idp/startSSO.ping?PartnerSpId=CO_FAM_PROD','myIframe0')">KAISER</button> -->
+  <button onclick="openInNewTabIdP('/idp/startSSO.ping?PartnerSpId=')">IdP-Init - new tab</button>
+  <button onclick="openInIframeIdP('/idp/startSSO.ping?PartnerSpId=','myIframe0')">IdP-Init - iFrame</button>
   <iframe id="myIframe0" style="display: none;"></iframe>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/pf/federation_metadata.ping?PartnerSpId=sp_test')">IdP Metadata</button>
+  <button onclick="openInNewTabIdP('/pf/federation_metadata.ping?PartnerSpId=')">IdP Metadata</button>
 
   <h2>SAML SP-Init</h2>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/sp/startSSO.ping?PartnerIdpId=idp_test')">PARTNER: idp_test - new tab</button>
-  <button onclick="openInIframe('https://sso.testpf.local:9031/sp/startSSO.ping?PartnerIdpId=idp_test','myIframe1')">PARTNER: idp_test - iFrame</button>
+  <button onclick="openInNewTabSP('/sp/startSSO.ping?PartnerIdpId=')">SP-Init - new tab</button>
+  <button onclick="openInIframeSP('/sp/startSSO.ping?PartnerIdpId=','myIframe1')">SP-Init - iFrame</button>
   <iframe id="myIframe1" style="display: none;"></iframe>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/pf/federation_metadata.ping?PartnerIdpId=idp_test')">SP Metadata</button>
+  <button onclick="openInNewTabSP('/pf/federation_metadata.ping?PartnerIdpId=')">SP Metadata</button>
+
+  <h2>OIDC SP-Init</h2>
+  <button onclick="openInNewTabWOIDC('/sp/startSSO.ping?PartnerIdpId=')">OpenID Connect</button>
 
   <h2>WS-Federation</h2>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/sp/startSSO.ping?PartnerIdpId=wf_test')">PARTNER: wsfed</button>
-  <button onclick="openInNewTab('https://localhost:9031/pf/federation_metadata.ping?PartnerSpId=wf_test')">WS-Fed IdP Metadata</button>
-  <button onclick="openInNewTab('https://localhost:9031/pf/federation_metadata.ping?PartnerIdpId=wf_test')">WS-Fed SP Metadata</button>
+  <button onclick="openInNewTabWSF('/sp/startSSO.ping?PartnerIdpId=')">WS-Fed</button>
+  <button onclick="openInNewTabWSF('/pf/federation_metadata.ping?PartnerSpId=')">WS-Fed IdP Metadata</button>
+  <button onclick="openInNewTabWSF('/pf/federation_metadata.ping?PartnerIdpId=')">WS-Fed SP Metadata</button>
 
   <h2>WS-Trust</h2>
-  <button onclick="wst('https://sso.testpf.local:9031/idp/sts.wst')">PARTNER: ws-trust</button>
-  <button onclick="openInNewTab('https://localhost:9031/pf/sts_mex.ping?PartnerSpId=ws-trust')">STS Metadata</button>
+  <button onclick="wst('/idp/sts.wst')">WS-Trust</button>
+  <button onclick="openInNewTabWST('/pf/sts_mex.ping?PartnerSpId=')">STS Metadata</button>
 
   <hr>
 
   <h2>SSPR</h2>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/ext/pwdchange/Identify?AdapterId=pdform')">Change Password</button>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/ext/pwdreset/Identify?AdapterId=pdform')">Reset Password</button>
-  <button onclick="openInNewTab('https://sso.testpf.local:9031/ext/idrecovery/Recover?AdapterId=pdform')">Recover Username</button>
+  <button onclick="openInNewTabSSPR('/ext/pwdchange/Identify?AdapterId=')">Change Password</button>
+  <button onclick="openInNewTabSSPR('/ext/pwdreset/Identify?AdapterId=')">Reset Password</button>
+  <button onclick="openInNewTabSSPR('/ext/idrecovery/Recover?AdapterId=')">Recover Username</button>
 
   <hr>
 
   <h2>OAuth Playground</h2>
-  <button onclick="openInNewTab('https://localhost:9031/OAuthPlayground')">OAuth PG</button>
+  <button onclick="openInNewTabAdmin('/OAuthPlayground')">OAuth PG</button>
 
   <h2>Admin Console</h2>
-  <button onclick="openInNewTab('https://localhost:9999/pingfederate/app')">PF Console</button>
+  <button onclick="openInNewTabAdmin('/pingfederate/app')">PF Console</button>
 
   <h2>Admin API Explorer</h2>
-  <button onclick="openInNewTab('https://localhost:9999/pf-admin-api/api-docs/')">API Explorer</button>
+  <button onclick="openInNewTabAdmin('/pf-admin-api/api-docs/')">API Explorer</button>
 
   <hr>
   <img id="rgif" class="gif-dimensions">
@@ -104,24 +138,116 @@
   <div class="progress-container">
       <div id="progress" class="progress-bar">0%</div>
   </div>
-  <b>「日本のタイマー」</b>
+  <b>「日本までのタイマー」</b>
+  <p id="usj"></p>
+  <div class="progress-container">
+      <div id="progress2" class="progress-bar">0%</div>
+  </div>
+  <b>「USJチケットまでのタイマー」</b>
   </div>
 
   <script>
-    function openInNewTab(url) {
-      var newTab = window.open(url);
-      newTab.focus();
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById("expButton").removeAttribute("disabled");
+            var section = document.querySelector(".hidden-section");
+            section.style.display = (section.style.display === "none") ? "block" : "none";
+        document.getElementById("expButton").addEventListener("click", function() {
+            var section = document.querySelector(".hidden-section");
+            section.style.display = (section.style.display === "none") ? "block" : "none";
+        });
+    });
+
+    function openInNewTabIdP(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const partner = document.getElementById('sppartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var newTab = window.open(url);
+        newTab.focus();
     }
 
-    function openInIframe(url,frame) {
-      var iframe = document.getElementById(frame);
-      iframe.src = url;
-      iframe.style.display = 'inline-block';
-      iframe.style.width = '350px';
-      iframe.style.height = '350px';
+    function openInNewTabSP(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const partner = document.getElementById('idppartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var newTab = window.open(url);
+        newTab.focus();
     }
 
-    function wst(url) {
+    function openInNewTabWOIDC(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const partner = document.getElementById('oidcpartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var newTab = window.open(url);
+        newTab.focus();
+    }
+
+    function openInNewTabWSF(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const partner = document.getElementById('wsfpartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var newTab = window.open(url);
+        newTab.focus();
+    }
+
+    function openInNewTabWST(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const partner = document.getElementById('wstpartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var newTab = window.open(url);
+        newTab.focus();
+    }
+
+    function openInNewTabSSPR(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const adapter = document.getElementById('sspradapter').value;
+        const url = `https://${hostname}:${port}${endpoint}${adapter}`;
+        var newTab = window.open(url);
+        newTab.focus();
+    }
+    
+    function openInNewTabAdmin(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const adport = document.getElementById('adport').value;
+        const url = `https://${hostname}:${adport}${endpoint}`;
+        var newTab = window.open(url);
+        newTab.focus();
+    }
+
+    function openInIframeIdP(endpoint,frame) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        // const endpoint = event.target.getAttribute('endpoint');
+        const partner = document.getElementById('sppartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var iframe = document.getElementById(frame);
+        iframe.src = url;
+        iframe.style.display = 'inline-block';
+        iframe.style.width = '350px';
+        iframe.style.height = '350px';
+    }
+
+    function openInIframeSP(endpoint,frame) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const partner = document.getElementById('idppartner').value;
+        const url = `https://${hostname}:${port}${endpoint}${partner}`;
+        var iframe = document.getElementById(frame);
+        iframe.src = url;
+        iframe.style.display = 'inline-block';
+        iframe.style.width = '350px';
+        iframe.style.height = '350px';
+    }
+
+    function wst(endpoint) {
+      const hostname = document.getElementById('hostname').value;
+      const port = document.getElementById('port').value;
+      const url = `https://${hostname}:${port}${endpoint}`;
       var defaultPayload = '<soap:Envelope xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Header><wsa:Action>http://schemas.xmlsoap.org/ws/2005/02/trust/RST/Issue</wsa:Action><wsa:MessageID>urn:uuid:8ca9339f-fe05-4594-8231-a32770b5b663</wsa:MessageID><wsa:ReplyTo><wsa:Address>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous</wsa:Address></wsa:ReplyTo><wsa:To>https://localhost:9031/idp/sts.wst</wsa:To><wsse:Security soap:mustUnderstand="1"><wsu:Timestamp wsu:Id="Timestamp-5fd7233e-27a1-4fcb-b4e4-5f515328334f"><wsu:Created>2015-06-18T00:04:00Z</wsu:Created><wsu:Expires>2025-06-19T00:04:00Z</wsu:Expires></wsu:Timestamp><wsse:UsernameToken xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" wsu:Id="SecurityToken-3505b09f-ff27-4920-882c-fe9727e34150"><wsse:Username>joe</wsse:Username><wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">2Federate</wsse:Password><wsse:Nonce>BheBpzty7KKTA8bLEsvnng==</wsse:Nonce><wsu:Created>2021-07-18T00:04:00Z</wsu:Created></wsse:UsernameToken></wsse:Security></soap:Header><soap:Body><wst:RequestSecurityToken xmlns:wst="http://schemas.xmlsoap.org/ws/2005/02/trust"><wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType><wsp:AppliesTo xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy"><wsa:EndpointReference><wsa:Address>test</wsa:Address></wsa:EndpointReference></wsp:AppliesTo><wst:Lifetime><wsu:Expires>2021-06-19T00:04:00Z</wsu:Expires></wst:Lifetime><wst:OnBehalfOf><wsse:SecurityTokenReference><wsse:Reference URI="#SecurityToken-3505b09f-ff27-4920-882c-fe9727e34150" ValueType="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#UsernameToken"/></wsse:SecurityTokenReference></wst:OnBehalfOf></wst:RequestSecurityToken></soap:Body></soap:Envelope>'
       var payload = prompt("Please enter the payload data:", defaultPayload);
       if (payload === null) {
@@ -140,6 +266,53 @@
         };
         xhr.send(payload);
       }
+
+    function adminheartbeat() {
+        var resultDiv = document.getElementById('adminheartbeatresult');
+        const hostname = document.getElementById('hostname').value;
+        const adport = document.getElementById('adport').value;
+        var endpoint = `https://${hostname}:${adport}/pf/heartbeat.ping`;
+        var xhr = new XMLHttpRequest();
+          xhr.open('GET', endpoint, true);
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                  if (xhr.status === 200) {
+                      resultDiv.innerHTML = 'Admin Heartbeat success!';
+                  } else {
+                      resultDiv.innerHTML = 'Runtime Heartbeat Failure';
+                  }
+              }
+          };
+          xhr.onerror = function () {
+              resultDiv.innerHTML = 'Unable to make the Admin Heartbeat request. Possibly CORS error.';
+          };
+          xhr.send();
+        }
+
+    function runtimeheartbeat() {
+        var resultDiv = document.getElementById('runtimeheartbeatresult');
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        var endpoint = `https://${hostname}:${port}/pf/heartbeat.ping`;
+        var xhr = new XMLHttpRequest();
+          xhr.open('GET', endpoint, true);
+          xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                  if (xhr.status === 200) {
+                      resultDiv.innerHTML = 'Runtime Heartbeat success!';
+                  } else {
+                      resultDiv.innerHTML = 'Runtime Heartbeat Failure';
+                  }
+              }
+          };
+          xhr.onerror = function () {
+              resultDiv.innerHTML = 'Unable to make the Runtime Heartbeat request. Possibly CORS error.';
+          };
+          xhr.send();
+        }
+
+    document.getElementById('heartbeat').addEventListener('click', adminheartbeat);
+    document.getElementById('heartbeat').addEventListener('click', runtimeheartbeat);
 
     window.onload = updateGif;
 
@@ -192,6 +365,26 @@
       'https://i.imgur.com/vZ0qEpU.gif',
       'https://i.imgur.com/lYzIhGq.gif',
       'https://i.imgur.com/347N9hX.gif',
+      'https://i.imgur.com/cgJsdDZ.gif',
+      'https://i.imgur.com/p0DQ9J8.gif',
+      'https://i.imgur.com/HzuLUpX.gif',
+      'https://i.imgur.com/11e0ifF.gif',
+      'https://i.imgur.com/1qW3nYz.gif',
+      'https://i.imgur.com/OJNjKfV.gif',
+      'https://i.imgur.com/yEgE0Sn.gif',
+      'https://i.imgur.com/b6U05z0.gif',
+      'https://i.imgur.com/RZfD00T.gif',
+      'https://i.imgur.com/6AhVVa8.gif',
+      'https://i.imgur.com/6xxvRHj.gif',
+      'https://i.imgur.com/FnLnUxl.gif',
+      'https://i.imgur.com/qOjX3dh.gif',
+      'https://i.imgur.com/x9dZlk8.gif',
+      'https://i.imgur.com/FGc4nv9.gif',
+      'https://i.imgur.com/TUcREwO.gif',
+      'https://i.imgur.com/9cuPY8o.gif',
+      'https://i.imgur.com/hg0ekNK.gif',
+      'https://i.imgur.com/fs0U0MV.gif',
+      'https://i.imgur.com/wk9T9Lc.gif',
     ];
 
     function updateGif() {
@@ -204,6 +397,7 @@
 
     var startDate = new Date("Sep 8, 2023 19:00:00").getTime();
     var countDownDate = new Date("Mar 23, 2024 05:00:00").getTime();
+    var countDownDate2 = new Date("Feb 02, 2024 0:00:00").getTime();
     var x = setInterval(function() {
       var now = new Date().getTime();
       var elapsedTime = now - startDate;
@@ -214,7 +408,6 @@
       var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
       var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
       document.getElementById("jpn").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
-      // document.getElementById("jpn").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
       
       var percentageCompleted = (elapsedTime / totalDuration) * 100;
       document.getElementById("progress").style.width = percentageCompleted + "%";
@@ -225,6 +418,28 @@
         document.getElementById("timer").innerHTML = "いくぞ !";
       }
     }, 1000);
+
+    var y = setInterval(function() {
+      var now = new Date().getTime();
+      var elapsedTime = now - startDate;
+      var totalDuration = countDownDate2 - startDate;
+      var cntdwn = countDownDate2 - now;
+      var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
+      document.getElementById("usj").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
+      
+      var percentageCompleted = (elapsedTime / totalDuration) * 100;
+      document.getElementById("progress2").style.width = percentageCompleted + "%";
+      document.getElementById("progress2").innerHTML = percentageCompleted.toFixed(4) + "%";
+      
+      if (now >= countDownDate) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "いくぞ !";
+      }
+    }, 1000);
+
   </script>
 </body>
 </html>
