@@ -67,6 +67,7 @@
 
   <button id="expButton" disabled>Edit Variables</button>
   <div class="hidden-section">
+    <p>PF</p>
     <label for="hostname">Hostname:</label>
     <input type="text" id="hostname" value="sso.testpf.local"><br>
     <label for="port">Runtime Port:</label>
@@ -85,6 +86,14 @@
     <input type="text" id="wstpartner" value="ws-trust"><br>
     <label for="sspradapter">SSPR Adapter:</label>
     <input type="text" id="sspradapter" value="pdform"><br>
+    <p>KC 3rd party IdP</p>
+    <label for="kchost">KC IdP Hostname:</label>
+    <input type="text" id="kchost" value="localhost"><br>
+    <label for="kcport">KC IdP Port:</label>
+    <input type="text" id="kcport" value="8080"><br>
+    <label for="kcpartner">KC IdP Client ID:</label>
+    <input type="text" id="kcpartner" value="pf"><br>
+
     <button id="heartbeat">Test heartbeats</button>
     <div id="adminheartbeatresult"></div>
     <div id="runtimeheartbeatresult"></div>
@@ -113,6 +122,9 @@
   <h2>WS-Trust</h2>
   <button onclick="wst('/idp/sts.wst')">WS-Trust</button>
   <button onclick="openInNewTabWST('/pf/sts_mex.ping?PartnerSpId=')">STS Metadata</button>
+
+  <h2>KC IdP-Init</h2>
+  <button onclick="openInNewTabKC('/realms/master/protocol/saml/clients/')">KC IdP-Init</button>
 
   <hr>
 
@@ -200,6 +212,15 @@
         const url = `https://${hostname}:${port}${endpoint}${partner}`;
         var newTab = window.open(url);
         newTab.focus();
+    }
+
+    function openInNewTabKC(endpoint) {
+      const hostname = document.getElementById('kchost').value
+      const partner = document.getElementById('kcpartner').value;
+      const port = document.getElementById('kcport').value;
+      const url = `http://${hostname}:${port}${endpoint}${partner}`;
+      var newTab = window.open(url);
+      newTab.focus();
     }
 
     function openInNewTabSSPR(endpoint) {
