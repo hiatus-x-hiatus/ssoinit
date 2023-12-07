@@ -86,6 +86,8 @@
     <input type="text" id="wstpartner" value="ws-trust"><br>
     <label for="sspradapter">SSPR Adapter:</label>
     <input type="text" id="sspradapter" value="pdform"><br>
+    <label for="x509">x509 Partner SP ID:</label>
+    <input type="text" id="x509" value="proxcer"><br>
     <p>KC 3rd party IdP</p>
     <label for="kchost">KC IdP Hostname:</label>
     <input type="text" id="kchost" value="localhost"><br>
@@ -122,6 +124,9 @@
   <h2>WS-Trust</h2>
   <button onclick="wst('/idp/sts.wst')">WS-Trust</button>
   <button onclick="openInNewTabWST('/pf/sts_mex.ping?PartnerSpId=')">STS Metadata</button>
+
+  <h2>X509</h2>
+  <button onclick="openInNewTabX('/idp/startSSO.ping?PartnerSpId=')">X509 Auth</button>
 
   <h2>KC IdP-Init</h2>
   <button onclick="openInNewTabKC('/realms/master/protocol/saml/clients/')">KC IdP-Init</button>
@@ -219,6 +224,15 @@
       const partner = document.getElementById('kcpartner').value;
       const port = document.getElementById('kcport').value;
       const url = `http://${hostname}:${port}${endpoint}${partner}`;
+      var newTab = window.open(url);
+      newTab.focus();
+    }
+
+    function openInNewTabX(endpoint) {
+      const hostname = document.getElementById('hostname').value;
+      const port = document.getElementById('port').value;
+      const partner = document.getElementById('x509').value;
+      const url = `https://${hostname}:${port}${endpoint}${partner}`;
       var newTab = window.open(url);
       newTab.focus();
     }
@@ -406,6 +420,15 @@
       'https://i.imgur.com/hg0ekNK.gif',
       'https://i.imgur.com/fs0U0MV.gif',
       'https://i.imgur.com/wk9T9Lc.gif',
+      'https://i.imgur.com/lA9tVnc.gif',
+      'https://i.imgur.com/iSyxD2w.gif',
+      'https://i.imgur.com/LbKrGC2.gif',
+      'https://i.imgur.com/yqBU2uB.gif',
+      'https://i.imgur.com/6dyizb5.gif',
+      'https://i.imgur.com/wPWdPFD.gif',
+      'https://i.imgur.com/ZnoLn4E.gif',
+      'https://i.imgur.com/G3IqOwi.gif',
+      'https://i.imgur.com/w3NjW9p.gif',
     ];
 
     function updateGif() {
