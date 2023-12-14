@@ -141,7 +141,7 @@
   <hr>
 
   <h2>OAuth Playground</h2>
-  <button onclick="openInNewTabAdmin('/OAuthPlayground')">OAuth PG</button>
+  <button onclick="openInNewTabPG('/OAuthPlayground')">OAuth PG</button>
 
   <h2>Admin Console</h2>
   <button onclick="openInNewTabAdmin('/pingfederate/app')">PF Console</button>
@@ -250,6 +250,14 @@
         const hostname = document.getElementById('hostname').value;
         const adport = document.getElementById('adport').value;
         const url = `https://${hostname}:${adport}${endpoint}`;
+        var newTab = window.open(url);
+        newTab.focus();
+    }
+
+    function openInNewTabPG(endpoint) {
+        const hostname = document.getElementById('hostname').value;
+        const port = document.getElementById('port').value;
+        const url = `https://${hostname}:${port}${endpoint}`;
         var newTab = window.open(url);
         newTab.focus();
     }
