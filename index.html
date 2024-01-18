@@ -171,6 +171,13 @@
   </div>
   <b>「Calgaryまでのタイマー」</b>
   </div>
+    <!-- toronto trip timer -->
+  <p id="cal"></p>
+  <div class="progress-container">
+      <div id="progress4" class="progress-bar">0%</div>
+  </div>
+  <b>「IMまでのタイマー」</b>
+  </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
@@ -458,9 +465,11 @@
 
     var startDate = new Date("Sep 8, 2023 19:00:00").getTime();
     var startDate2 = new Date("Jan 4, 2024 10:00:00").getTime();
+    var startDate3 = new Date("Jan 18, 2024 12:00:00").getTime();
     var countDownDate = new Date("Mar 23, 2024 05:00:00").getTime();
     var countDownDate2 = new Date("Feb 02, 2024 00:00:00").getTime();
     var countDownDate3 = new Date("Apr 29, 2024 00:00:00").getTime();
+    var countDownDate4 = new Date("Oct 26, 2024 00:00:00").getTime();
     var x = setInterval(function() {
       var now = new Date().getTime();
       var elapsedTime = now - startDate;
@@ -498,7 +507,7 @@
       document.getElementById("progress2").innerHTML = percentageCompleted.toFixed(4) + "%";
       
       if (now >= countDownDate) {
-        clearInterval(x);
+        clearInterval(y);
         document.getElementById("progress2").innerHTML = "いくぞ !";
       }
     }, 1000);
@@ -519,8 +528,29 @@
       document.getElementById("progress3").innerHTML = percentageCompleted.toFixed(4) + "%";
       
       if (now >= countDownDate) {
-        clearInterval(x);
+        clearInterval(z);
         document.getElementById("progress3").innerHTML = "いくぞ !";
+      }
+    }, 1000);
+
+    var ax = setInterval(function() {
+      var now = new Date().getTime();
+      var elapsedTime = now - startDate3;
+      var totalDuration = countDownDate4 - startDate3;
+      var cntdwn = countDownDate4 - now;
+      var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
+      document.getElementById("cal").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
+      
+      var percentageCompleted = (elapsedTime / totalDuration) * 100;
+      document.getElementById("progress4").style.width = percentageCompleted + "%";
+      document.getElementById("progress4").innerHTML = percentageCompleted.toFixed(4) + "%";
+      
+      if (now >= countDownDate) {
+        clearInterval(ax);
+        document.getElementById("progress4").innerHTML = "いくぞ !";
       }
     }, 1000);
 
