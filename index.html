@@ -159,11 +159,11 @@
   </div>
   <b>「日本までのタイマー」</b>
   <!-- usj ticket buy timer -->
-  <p id="usj"></p>
+<!--   <p id="usj"></p>
   <div class="progress-container">
       <div id="progress2" class="progress-bar">0%</div>
   </div>
-  <b>「USJチケットまでのタイマー」</b>
+  <b>「USJチケットまでのタイマー」</b> -->
   <!-- calgary trip timer -->
   <p id="cal"></p>
   <div class="progress-container">
@@ -490,26 +490,26 @@
       }
     }, 1000);
 
-    var y = setInterval(function() {
-      var now = new Date().getTime();
-      var elapsedTime = now - startDate;
-      var totalDuration = countDownDate2 - startDate;
-      var cntdwn = countDownDate2 - now;
-      var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
-      document.getElementById("usj").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
+    // var y = setInterval(function() {
+    //   var now = new Date().getTime();
+    //   var elapsedTime = now - startDate;
+    //   var totalDuration = countDownDate2 - startDate;
+    //   var cntdwn = countDownDate2 - now;
+    //   var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
+    //   var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //   var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
+    //   var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
+    //   document.getElementById("usj").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
       
-      var percentageCompleted = (elapsedTime / totalDuration) * 100;
-      document.getElementById("progress2").style.width = percentageCompleted + "%";
-      document.getElementById("progress2").innerHTML = percentageCompleted.toFixed(4) + "%";
+    //   var percentageCompleted = (elapsedTime / totalDuration) * 100;
+    //   document.getElementById("progress2").style.width = percentageCompleted + "%";
+    //   document.getElementById("progress2").innerHTML = percentageCompleted.toFixed(4) + "%";
       
-      if (now >= countDownDate) {
-        clearInterval(y);
-        document.getElementById("progress2").innerHTML = "いくぞ !";
-      }
-    }, 1000);
+    //   if (now >= countDownDate) {
+    //     clearInterval(y);
+    //     document.getElementById("progress2").innerHTML = "いくぞ !";
+    //   }
+    // }, 1000);
 
     var z = setInterval(function() {
       var now = new Date().getTime();
