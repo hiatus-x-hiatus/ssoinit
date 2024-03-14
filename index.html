@@ -158,18 +158,18 @@
       <div id="progress" class="progress-bar">0%</div>
   </div>
   <b>「日本までのタイマー」</b>
-  <!-- usj ticket buy timer -->
-<!--   <p id="usj"></p>
-  <div class="progress-container">
-      <div id="progress2" class="progress-bar">0%</div>
-  </div>
-  <b>「USJチケットまでのタイマー」</b> -->
   <!-- calgary trip timer -->
   <p id="cal"></p>
   <div class="progress-container">
       <div id="progress3" class="progress-bar">0%</div>
   </div>
   <b>「アモン・アマースまでのタイマー」</b>
+  <!-- beerfest timer -->
+  <p id="usj"></p>
+  <div class="progress-container">
+      <div id="progress2" class="progress-bar">0%</div>
+  </div>
+  <b>「ビール祭りまでのタイマー」</b>
     <!-- toronto trip timer -->
   <p id="im"></p>
   <div class="progress-container">
@@ -470,18 +470,19 @@
     }
     setInterval(updateGif, 60000);
 
-    var startDate = new Date("Sep 8, 2023 19:00:00").getTime();
-    var startDate2 = new Date("Jan 4, 2024 10:00:00").getTime();
-    var startDate3 = new Date("Jan 18, 2024 12:00:00").getTime();
-    var countDownDate = new Date("Mar 23, 2024 05:00:00").getTime();
-    var countDownDate2 = new Date("Feb 02, 2024 00:00:00").getTime();
-    var countDownDate3 = new Date("Apr 29, 2024 00:00:00").getTime();
-    var countDownDate4 = new Date("Oct 26, 2024 00:00:00").getTime();
+    var jpnstartDate = new Date("Sep 8, 2023 19:00:00").getTime();
+    var bfstartDate = new Date("Aug 12, 2023 19:00:00").getTime();
+    var amstartDate = new Date("Jan 4, 2024 10:00:00").getTime();
+    var imstartDate = new Date("Jan 18, 2024 12:00:00").getTime();
+    var jpncountDownDate = new Date("Mar 23, 2024 05:00:00").getTime();
+    var bfcountDownDate = new Date("Aug 10, 2024 00:00:00").getTime();
+    var amcountDownDate = new Date("Apr 29, 2024 00:00:00").getTime();
+    var imcountDownDate = new Date("Oct 26, 2024 00:00:00").getTime();
     var x = setInterval(function() {
       var now = new Date().getTime();
-      var elapsedTime = now - startDate;
-      var totalDuration = countDownDate - startDate;
-      var cntdwn = countDownDate - now;
+      var elapsedTime = now - jpnstartDate;
+      var totalDuration = jpncountDownDate - jpnstartDate;
+      var cntdwn = jpncountDownDate - now;
       var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
       var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
@@ -492,38 +493,38 @@
       document.getElementById("progress").style.width = percentageCompleted + "%";
       document.getElementById("progress").innerHTML = percentageCompleted.toFixed(4) + "%";
       
-      if (now >= countDownDate) {
+      if (now >= jpncountDownDate) {
         clearInterval(x);
         document.getElementById("progress").innerHTML = "いくぞ !";
       }
     }, 1000);
 
-    // var y = setInterval(function() {
-    //   var now = new Date().getTime();
-    //   var elapsedTime = now - startDate;
-    //   var totalDuration = countDownDate2 - startDate;
-    //   var cntdwn = countDownDate2 - now;
-    //   var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
-    //   var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    //   var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
-    //   var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
-    //   document.getElementById("usj").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
+    var y = setInterval(function() {
+      var now = new Date().getTime();
+      var elapsedTime = now - bfstartDate;
+      var totalDuration = bfcountDownDate - bfstartDate;
+      var cntdwn = bfcountDownDate - now;
+      var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((cntdwn % (1000 * 60)) / 1000);
+      document.getElementById("usj").innerHTML = days + "日 " + hours + "時 " + minutes + "分 " + seconds + "秒 ";
       
-    //   var percentageCompleted = (elapsedTime / totalDuration) * 100;
-    //   document.getElementById("progress2").style.width = percentageCompleted + "%";
-    //   document.getElementById("progress2").innerHTML = percentageCompleted.toFixed(4) + "%";
+      var percentageCompleted = (elapsedTime / totalDuration) * 100;
+      document.getElementById("progress2").style.width = percentageCompleted + "%";
+      document.getElementById("progress2").innerHTML = percentageCompleted.toFixed(4) + "%";
       
-    //   if (now >= countDownDate) {
-    //     clearInterval(y);
-    //     document.getElementById("progress2").innerHTML = "いくぞ !";
-    //   }
-    // }, 1000);
+      if (now >= bfcountDownDate) {
+        clearInterval(y);
+        document.getElementById("progress2").innerHTML = "いくぞ !";
+      }
+    }, 1000);
 
     var z = setInterval(function() {
       var now = new Date().getTime();
-      var elapsedTime = now - startDate2;
-      var totalDuration = countDownDate3 - startDate2;
-      var cntdwn = countDownDate3 - now;
+      var elapsedTime = now - amstartDate;
+      var totalDuration = amcountDownDate - amstartDate;
+      var cntdwn = amcountDownDate - now;
       var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
       var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
@@ -534,7 +535,7 @@
       document.getElementById("progress3").style.width = percentageCompleted + "%";
       document.getElementById("progress3").innerHTML = percentageCompleted.toFixed(4) + "%";
       
-      if (now >= countDownDate) {
+      if (now >= amcountDownDate) {
         clearInterval(z);
         document.getElementById("progress3").innerHTML = "いくぞ !";
       }
@@ -542,9 +543,9 @@
 
     var ax = setInterval(function() {
       var now = new Date().getTime();
-      var elapsedTime = now - startDate3;
-      var totalDuration = countDownDate4 - startDate3;
-      var cntdwn = countDownDate4 - now;
+      var elapsedTime = now - imstartDate;
+      var totalDuration = imcountDownDate - imstartDate;
+      var cntdwn = imcountDownDate - now;
       var days = Math.floor(cntdwn / (1000 * 60 * 60 * 24));
       var hours = Math.floor((cntdwn % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       var minutes = Math.floor((cntdwn % (1000 * 60 * 60)) / (1000 * 60));
@@ -555,7 +556,7 @@
       document.getElementById("progress4").style.width = percentageCompleted + "%";
       document.getElementById("progress4").innerHTML = percentageCompleted.toFixed(4) + "%";
       
-      if (now >= countDownDate) {
+      if (now >= imcountDownDate) {
         clearInterval(ax);
         document.getElementById("progress4").innerHTML = "いくぞ !";
       }
