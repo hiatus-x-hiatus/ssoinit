@@ -375,91 +375,96 @@
     window.onload = updateGif;
 
     const gifs = [
-      'https://i.imgur.com/YMbuFKf.gif',
-      'https://i.imgur.com/LC56Bo7.gif',
-      'https://i.imgur.com/iMdMGxd.gif',
-      'https://i.imgur.com/QQYQDVH.gif',
-      'https://i.imgur.com/3rhmuV2.gif',
-      'https://i.imgur.com/JVm7wQw.gif',
-      'https://i.imgur.com/AcDfmVn.gif',
-      'https://i.imgur.com/YXf589T.gif',
-      'https://i.imgur.com/MnL7t2W.gif',
-      'https://i.imgur.com/5H1dO71.gif',
-      'https://i.imgur.com/PgkeecI.gif',
-      'https://i.imgur.com/1rfo0IR.gif',
-      'https://i.imgur.com/iWF390g.gif',
-      'https://i.imgur.com/oLZ7SpR.gif',
-      'https://i.imgur.com/4qaXEao.gif',
-      // 'https://i.imgur.com/WVXGhLj.gif',
-      // 'https://i.imgur.com/6VmjxVK.gif',
-      'https://i.imgur.com/dTdqEed.gif',
-      'https://i.imgur.com/hZUZpVy.gif',
-      'https://i.imgur.com/eUtuyeS.gif',
-      'https://i.imgur.com/d3RojpB.gif',
-      'https://i.imgur.com/0GIP3eR.gif',
-      'https://i.imgur.com/OBxsfLO.gif',
-      'https://i.imgur.com/Ibm0j5Y.gif',
-      'https://i.imgur.com/1bWMB1n.gif',
-      'https://i.imgur.com/kS8rldK.gif',
-      'https://i.imgur.com/E8yADmm.gif',
-      'https://i.imgur.com/6GkpMQw.gif',
-      'https://i.imgur.com/xqsOjIu.gif',
-      'https://i.imgur.com/JHu6gU5.gif',
-      'https://i.imgur.com/8zb8SiZ.gif',
-      'https://i.imgur.com/1A2aTVL.gif',
-      'https://i.imgur.com/x2ArFtA.gif',
-      'https://i.imgur.com/6TmiDrH.gif',
-      'https://i.imgur.com/q4f50Da.gif',
-      'https://i.imgur.com/e5ouM1l.gif',
-      'https://i.imgur.com/xOXid4z.gif',
-      'https://i.imgur.com/SgobXMc.gif',
-      'https://i.imgur.com/Db2877M.gif',
-      'https://i.imgur.com/AC2kOFM.gif',
-      'https://i.imgur.com/xl5R3fs.gif',
-      'https://i.imgur.com/gk57H2G.gif',
-      'https://i.imgur.com/YMaTu1r.gif',
-      'https://i.imgur.com/ecn6Q6N.gif',
-      'https://i.imgur.com/VNPrz9G.gif',
-      'https://i.imgur.com/vZ0qEpU.gif',
-      'https://i.imgur.com/lYzIhGq.gif',
-      'https://i.imgur.com/347N9hX.gif',
-      'https://i.imgur.com/cgJsdDZ.gif',
-      'https://i.imgur.com/p0DQ9J8.gif',
-      'https://i.imgur.com/HzuLUpX.gif',
-      'https://i.imgur.com/11e0ifF.gif',
-      'https://i.imgur.com/1qW3nYz.gif',
-      'https://i.imgur.com/OJNjKfV.gif',
-      'https://i.imgur.com/yEgE0Sn.gif',
-      'https://i.imgur.com/b6U05z0.gif',
-      'https://i.imgur.com/RZfD00T.gif',
-      'https://i.imgur.com/6AhVVa8.gif',
-      'https://i.imgur.com/6xxvRHj.gif',
-      'https://i.imgur.com/FnLnUxl.gif',
-      'https://i.imgur.com/qOjX3dh.gif',
-      'https://i.imgur.com/x9dZlk8.gif',
-      'https://i.imgur.com/FGc4nv9.gif',
-      'https://i.imgur.com/TUcREwO.gif',
-      'https://i.imgur.com/9cuPY8o.gif',
-      'https://i.imgur.com/hg0ekNK.gif',
-      'https://i.imgur.com/fs0U0MV.gif',
-      'https://i.imgur.com/wk9T9Lc.gif',
-      'https://i.imgur.com/lA9tVnc.gif',
-      'https://i.imgur.com/iSyxD2w.gif',
-      'https://i.imgur.com/LbKrGC2.gif',
-      'https://i.imgur.com/yqBU2uB.gif',
-      'https://i.imgur.com/6dyizb5.gif',
-      'https://i.imgur.com/wPWdPFD.gif',
-      'https://i.imgur.com/ZnoLn4E.gif',
-      'https://i.imgur.com/G3IqOwi.gif',
-      'https://i.imgur.com/w3NjW9p.gif',
-      'https://i.imgur.com/Joz9Joe.gif',
-      'https://i.imgur.com/2lZ1Z3H.gif',
-      'https://i.imgur.com/yCmTZ7I.gif',
-      'https://i.imgur.com/nRHK5cf.gif',
-      'https://i.imgur.com/HMROlaq.gif',
-      'https://i.imgur.com/J7pXjbe.gif',
-      'https://i.imgur.com/MI4somo.gif',
-      'https://i.imgur.com/w1WjDrU.gif',
+      'https://i.imgur.com/YMbuFKf.gif', //knuckles
+      'https://i.imgur.com/LC56Bo7.gif', //zero
+      'https://i.imgur.com/iMdMGxd.gif', //ro_enemy0
+      'https://i.imgur.com/QQYQDVH.gif', //ro_enemy1
+      'https://i.imgur.com/3rhmuV2.gif', //ro_knight
+      'https://i.imgur.com/JVm7wQw.gif', //ro_novice
+      'https://i.imgur.com/AcDfmVn.gif', //ro_poring
+      'https://i.imgur.com/YXf589T.gif', //ro_poporing
+      'https://i.imgur.com/MnL7t2W.gif', //ro_drops
+      'https://i.imgur.com/5H1dO71.gif', //squirtle0
+      'https://i.imgur.com/PgkeecI.gif', //haunter
+      'https://i.imgur.com/1rfo0IR.gif', //polygon_tree
+      'https://i.imgur.com/iWF390g.gif', //polygon_noodles
+      'https://i.imgur.com/oLZ7SpR.gif', //penitente0
+      'https://i.imgur.com/4qaXEao.gif', //penetente1
+      // 'https://i.imgur.com/WVXGhLj.gif', //zx0
+      // 'https://i.imgur.com/6VmjxVK.gif', //zx1
+      'https://i.imgur.com/dTdqEed.gif', //pheonix_wright
+      'https://i.imgur.com/hZUZpVy.gif', //gabumon
+      'https://i.imgur.com/eUtuyeS.gif', //metalgreymon
+      'https://i.imgur.com/d3RojpB.gif', //abra
+      'https://i.imgur.com/0GIP3eR.gif', //gunvolt
+      'https://i.imgur.com/OBxsfLO.gif', //jill_valentine
+      'https://i.imgur.com/Ibm0j5Y.gif', //rockman
+      'https://i.imgur.com/1bWMB1n.gif', //mmz
+      'https://i.imgur.com/kS8rldK.gif', //chrono
+      'https://i.imgur.com/E8yADmm.gif', //mmx
+      'https://i.imgur.com/6GkpMQw.gif', //tails
+      'https://i.imgur.com/xqsOjIu.gif', //sonic
+      'https://i.imgur.com/JHu6gU5.gif', //fe_hector
+      'https://i.imgur.com/8zb8SiZ.gif', //katamari
+      'https://i.imgur.com/1A2aTVL.gif', //jackfrost
+      'https://i.imgur.com/x2ArFtA.gif', //persona
+      'https://i.imgur.com/6TmiDrH.gif', //neco_arc0
+      'https://i.imgur.com/q4f50Da.gif', //link
+      'https://i.imgur.com/e5ouM1l.gif', //alucard
+      'https://i.imgur.com/xOXid4z.gif', //ninja_gaiden
+      'https://i.imgur.com/SgobXMc.gif', //prinny
+      'https://i.imgur.com/Db2877M.gif', //may
+      'https://i.imgur.com/AC2kOFM.gif', //ridley
+      'https://i.imgur.com/xl5R3fs.gif', //samus
+      'https://i.imgur.com/gk57H2G.gif', //mewtwo
+      'https://i.imgur.com/YMaTu1r.gif', //gengar
+      'https://i.imgur.com/ecn6Q6N.gif', //gastley
+      'https://i.imgur.com/VNPrz9G.gif', //squirtle1
+      'https://i.imgur.com/vZ0qEpU.gif', //chao
+      'https://i.imgur.com/lYzIhGq.gif', //polygon_gb
+      'https://i.imgur.com/347N9hX.gif', //eva
+      'https://i.imgur.com/cgJsdDZ.gif', //bee
+      'https://i.imgur.com/p0DQ9J8.gif', //eva_angel
+      'https://i.imgur.com/HzuLUpX.gif', //homura
+      'https://i.imgur.com/11e0ifF.gif', //kyoko
+      'https://i.imgur.com/1qW3nYz.gif', //kyubey
+      'https://i.imgur.com/OJNjKfV.gif', //hsien-ko
+      'https://i.imgur.com/yEgE0Sn.gif', //lilith
+      'https://i.imgur.com/b6U05z0.gif', //magikarp
+      'https://i.imgur.com/RZfD00T.gif', //mami
+      'https://i.imgur.com/6AhVVa8.gif', //morrigan
+      'https://i.imgur.com/6xxvRHj.gif', //rei
+      'https://i.imgur.com/FnLnUxl.gif', //roy
+      'https://i.imgur.com/qOjX3dh.gif', //miki
+      'https://i.imgur.com/x9dZlk8.gif', //scyther
+      'https://i.imgur.com/FGc4nv9.gif', //goku
+      'https://i.imgur.com/TUcREwO.gif', //goku_ssgss
+      'https://i.imgur.com/9cuPY8o.gif', //subzero
+      'https://i.imgur.com/hg0ekNK.gif', //totodyle
+      'https://i.imgur.com/fs0U0MV.gif', //venom
+      'https://i.imgur.com/wk9T9Lc.gif', //zawarudo
+      'https://i.imgur.com/lA9tVnc.gif', //ro_enemy2
+      'https://i.imgur.com/iSyxD2w.gif', //ro_enemy3
+      'https://i.imgur.com/LbKrGC2.gif', //ro_enemy4
+      'https://i.imgur.com/yqBU2uB.gif', //ro_enemy5
+      'https://i.imgur.com/6dyizb5.gif', //ro_enemy6
+      'https://i.imgur.com/wPWdPFD.gif', //ro_enemy7
+      'https://i.imgur.com/ZnoLn4E.gif', //ro_enemy8
+      'https://i.imgur.com/G3IqOwi.gif', //ro_enemy9
+      'https://i.imgur.com/w3NjW9p.gif', //ro_marin
+      'https://i.imgur.com/Joz9Joe.gif', //estelle
+      'https://i.imgur.com/2lZ1Z3H.gif', //gon0
+      'https://i.imgur.com/yCmTZ7I.gif', //gon1
+      'https://i.imgur.com/nRHK5cf.gif', //humphrey
+      'https://i.imgur.com/HMROlaq.gif', //tita
+      'https://i.imgur.com/J7pXjbe.gif', //aubrey
+      'https://i.imgur.com/MI4somo.gif', //omori
+      'https://i.imgur.com/w1WjDrU.gif', //pizza
+      'https://i.imgur.com/Mxq69Te.gif', //aoko
+      'https://i.imgur.com/RL8mk9R.gif', //ciel
+      'https://i.imgur.com/1vcY7OE.gif', //kohaku
+      'https://i.imgur.com/Iiw5j2P.gif', //red_arc
+      'https://i.imgur.com/rhl2bOj.gif', //neco_arc1
     ];
 
     function updateGif() {
